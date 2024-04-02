@@ -1,6 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.std_logic_arith.ALL; --Kod içerinde aritmetik iþlemler yapacaðýz
+use IEEE.std_logic_arith.ALL; --Kod iÃ§erinde aritmetik iÃ¾lemler yapacaÃ°Ã½z
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.numeric_std.ALL;
 
@@ -9,7 +9,7 @@ entity kare_surat is
 
 generic(
 
-constant Horizontal_Visible_Area : integer := 1024; --Görünür alan,Front Porch, Back Porch ve Sync Pulse deðerleri generic içerisinde constant olarak tanýmlandý
+constant Horizontal_Visible_Area : integer := 1024; --GÃ¶rÃ¼nÃ¼r alan,Front Porch, Back Porch ve Sync Pulse deÃ°erleri generic iÃ§erisinde constant olarak tanÃ½mlandÃ½
 constant Horizontal_Front_Porch : integer := 48;
 constant Horizontal_Back_Porch : integer := 208;
 constant Horizontal_Sync_Pulse : integer := 96;
@@ -26,8 +26,8 @@ constant Vertical_Sync_Pulse : integer := 3
            vgaRed   : out STD_LOGIC_VECTOR(3 downto 0); --RGB
            vgaBlue  : out STD_LOGIC_VECTOR(3 downto 0);
            vgaGreen : out STD_LOGIC_VECTOR(3 downto 0);
-           Hsync    : out STD_LOGIC; --Yatay Senkronizasyon çýktýsý
-           Vsync    : out STD_LOGIC  --Dikey Senkronizasyon çýktýsý
+           Hsync    : out STD_LOGIC; --Yatay Senkronizasyon Ã§iktisi
+           Vsync    : out STD_LOGIC  --Dikey Senkronizasyon Ã§iktisi
            
            );
 end kare_surat;
@@ -35,9 +35,9 @@ end kare_surat;
 architecture Behavioral of kare_surat is
 
  
-signal Horizontal_Position : integer:=0; -- O an yatayda bulunduðumuz piksel deðeri
-signal Vertical_Position : integer:=0;   -- O an dikeyde bulunduðumuz piksel deðeri
-signal Oynat :std_logic:='0';            -- O anda görünür bölgedeysek oynat sinyali '1' olacak
+signal Horizontal_Position : integer:=0; -- O an yatayda bulunduÃ°umuz piksel deÃ°eri
+signal Vertical_Position : integer:=0;   -- O an dikeyde bulunduÃ°umuz piksel deÃ°eri
+signal Oynat :std_logic:='0';            -- O anda gÃ¶rÃ¼nÃ¼r bÃ¶lgedeysek oynat sinyali '1' olacak
 
 
 begin
@@ -56,14 +56,14 @@ Yatay: process(clk,rst) begin
    
     elsif(rising_edge(clk)) then
     
-        if(Horizontal_Position=Horizontal_Visible_Area + Horizontal_Front_Porch + Horizontal_Back_Porch + Horizontal_Sync_Pulse) then --Yatayda sýnýra ulaþýldýysa baþa dön 
+        if(Horizontal_Position=Horizontal_Visible_Area + Horizontal_Front_Porch + Horizontal_Back_Porch + Horizontal_Sync_Pulse) then --Yatayda sinira ulasildiysa basa dÃ¶n 
             
                 Horizontal_Position<=0;
 
             
          else
          
-                Horizontal_Position<=Horizontal_Position+1; ----Yatayda sýnýra ulaþýlmadýysa 1 saða kay 
+                Horizontal_Position<=Horizontal_Position+1; ----Yatayda sinira ulasilmadiysa 1 saga kay 
 
 
         end if;
@@ -85,12 +85,12 @@ if(rst='1') then
 elsif(rising_edge(clk)) then
 
 
-        if(Horizontal_Position=Horizontal_Visible_Area + Horizontal_Front_Porch + Horizontal_Back_Porch + Horizontal_Sync_Pulse) then--Yatayda satýrýnýn sonuna gelmiþse if bloðuna gir 
+        if(Horizontal_Position=Horizontal_Visible_Area + Horizontal_Front_Porch + Horizontal_Back_Porch + Horizontal_Sync_Pulse) then--Yatayda satirin sonuna gelmiÃ¾se if bloguna gir 
              
-                if(Vertical_Position=Horizontal_Visible_Area + Vertical_Front_Porch + Vertical_Back_Porch + Vertical_Sync_Pulse) then --Dikayde sýnýra ulaþýlmýþsa baþa dön                 
+                if(Vertical_Position=Horizontal_Visible_Area + Vertical_Front_Porch + Vertical_Back_Porch + Vertical_Sync_Pulse) then --Dikayde sinira ulasildiysa basa dÃ¶n                 
                         Vertical_Position<=0;   
                  else
-                      Vertical_Position<=Vertical_Position+1; ----Dikayde sýnýra ulaþýlmamýþsa bir alt satýra geç 
+                      Vertical_Position<=Vertical_Position+1; ----Dikayde sinira ulasilmadiysa bir alt satira geÃ§ 
                 end if;
         end if;
                 
@@ -111,7 +111,7 @@ Yatay_Senkronizasyon : process(clk,rst,Horizontal_Position) begin
    
     elsif(rising_edge(clk)) then
     
-        if((Horizontal_Position<=Horizontal_Visible_Area+Horizontal_Front_Porch) OR (Horizontal_Position > Horizontal_Visible_Area+Horizontal_Front_Porch+Horizontal_Sync_Pulse)) then -- Sync Pulse içerisnde deðise Hsync '1' olacak
+        if((Horizontal_Position<=Horizontal_Visible_Area+Horizontal_Front_Porch) OR (Horizontal_Position > Horizontal_Visible_Area+Horizontal_Front_Porch+Horizontal_Sync_Pulse)) then -- Sync Pulse iÃ§erisnde degise Hsync '1' olacak
             
                 Hsync<='1';
 
@@ -139,7 +139,7 @@ Dikey_Senkronizasyon : process(clk,rst,Vertical_Position) begin
    
     elsif(rising_edge(clk)) then
     
-        if((Vertical_Position<=Vertical_Visible_Area+Vertical_Front_Porch) OR (Vertical_Position > Vertical_Visible_Area + Vertical_Front_Porch+Vertical_Sync_Pulse)) then -- Sync Pulse içerisnde deðise Hsync '0' olacak
+        if((Vertical_Position<=Vertical_Visible_Area+Vertical_Front_Porch) OR (Vertical_Position > Vertical_Visible_Area + Vertical_Front_Porch+Vertical_Sync_Pulse)) then -- Sync Pulse iÃ§erisnde degise Hsync '0' olacak
             
                 Vsync<='1';
 
@@ -158,7 +158,7 @@ end process;
 -----------------------------------------------------------------------------------
 
 
-Video_Oynat: process(clk,rst, Vertical_Position,Horizontal_Position) begin -- Görünür bölge içerisndeysek oynat sinyali '1' olacak
+Video_Oynat: process(clk,rst, Vertical_Position,Horizontal_Position) begin -- GÃ¶rÃ¼nÃ¼r bÃ¶lge iÃ§erisindeysek oynat sinyali '1' olacak
 
 
     if(rst='1') then
@@ -187,7 +187,7 @@ end process;
 
 -----------------------------------------------------------------------------------
 
-ekrana_basim_islemi: process(clk,rst, Vertical_Position,Horizontal_Position,oynat) begin --Mimaride oluþturduðumuz piksel aralýklarýný ilgili renklere boyarýz
+ekrana_basim_islemi: process(clk,rst, Vertical_Position,Horizontal_Position,oynat) begin --Mimaride olusturdugumuz piksel araliklarini ilgili renklere boyariz
 
 
     if(rst='1') then
@@ -351,7 +351,7 @@ ekrana_basim_islemi: process(clk,rst, Vertical_Position,Horizontal_Position,oyna
                         
                 if((Horizontal_Position>=352)and(Horizontal_Position<=660))  then
                 
-                        vgaRed  <="1111";--Kýrmýzý
+                        vgaRed  <="1111";--KÃ½rmÃ½zÃ½
                         vgaBlue <="0000";
                         vgaGreen<="0000";
                         
